@@ -1,5 +1,8 @@
 # Virtual-instrumentation-Arduino-LabWindows-CVI
 Para montar este proyecto se requiere un Arduino Zero o otra placa con un microcontrolador SAMD21.
+Para utilizar un timer se usa la librería:
+
+https://github.com/avandalen/avdweb_SAMDtimer
 
 En esta aplicación se muestra como hacer instrumentación virtual con Arduino y la librería 
 segainvex_scpi_Serial más elentormo de programación de National Instrumentos LabWindows CVI, 
