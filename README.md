@@ -72,11 +72,11 @@ Código para enviar un comando y recibir respuesta sin modo automático:
  	char DatosRecibidos[256]; //Cadena para recibir datos del instrumento
   //...
  	pcom_recepcion_automatica(NO); //Evita la recepción automática	
-	sprintf(CadenaComando,"%s","*IDN"); //Pone el comando en la cadena de salida       
- 	ENVIAR_COMANDO_AL_SISTEMA(MOSTRAR) //Envia el comando en la cadena de salida       
- 	pcom_recepcion_automatica(SI); //Habilita la recepción automática	
-	pcom_recibir_datos (DatosRecibidos,1);//Que rellena la cadena DatosRecibidos
-	//Ya podemos procesar los datos recibidos en DatosRecibidos
+	sprintf(CadenaComando,"%s","*IDN"); /*Pone el comando en la cadena de salida       */
+ 	ENVIAR_COMANDO_AL_SISTEMA(MOSTRAR) /*Envia el comando en la cadena de salida       */
+ 	pcom_recepcion_automatica(SI); /*Habilita la recepción automática	           */
+	pcom_recibir_datos (DatosRecibidos,1);/*Que rellena la cadena DatosRecibidos       */
+	/*Ya podemos procesar los datos recibidos en DatosRecibidos*/
   
 Al ejecutar el macro ENVIAR_COMANDO_AL_SISTEMA se envía por el puerto serie y se produce un delay de duración
 "Retardo", que es un parámetro configurable.
