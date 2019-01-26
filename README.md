@@ -3,7 +3,7 @@ Para montar este proyecto se requiere un Arduino Zero o otra placa con un microc
 
 En esta aplicación se muestra como hacer instrumentación virtual con Arduino y la librería 
 segainvex_scpi_Serial más elentormo de programación de National Instrumentos LabWindows CVI, 
-con el que se ha programado la librería para este entorno pcom para manejar fácilmente un puerto
+con el que se ha programado la librería para este entorno "PuertoCOM" para manejar fácilmente un puerto
 COM a través del cual se comunica con el puerto USB donde se conectar el Arduino.
 
 Para ejecutar la aplicación hay que instalar el Runtime Engine de LabWindows CVI.
@@ -18,7 +18,7 @@ envía las muestras y la aplicación las plotea. Arduino lee las muestras de la 
 En esta entrada se puede poner un cable al aire con unas espiras y se captará la inducción de la red 
 electrica que en España es de 50Hz y eso es lo que se verá en la gráfica.
 
-Lo importante es ver como se usa la librería segainvex_scpi_Serial en Arduino y pcom en el PC. 
+Lo importante es ver como se usa la librería segainvex_scpi_Serial en Arduino y PuertoCOM en el PC. 
 Ahora se da una explicación de como se utiliza esta última para hacer instrumentación virtual.
 
 Para utilizar este módulo hay que incluir PuertoCOM.c PuertoCOM.h listaPaco.c listaPaco.h.
