@@ -2,83 +2,80 @@
 #define __PuertoCOM_H__
 /**************************************************************************************
  Fichero: PuertoCom.h
- PrÛposito: Implementa variables y funciones para manejar f·cilmente la 
- conexiÛn a un puerto COM de un instrumento con la librerÌa para 
+ Pr√≥posito: Implementa variables y funciones para manejar f√°cilmente la 
+ conexi√≥n a un puerto COM de un instrumento con la librer√≠a para 
  Arduino Segainvex_scpi_Serial (no es imprescindible).
  
  INSTRUCCIONES DE USO:
  
- Para utilizar este mÛdulo hay que incluir PuertoCOM.h en la compilaciÛn
- adem·s de estar en el proyecto los mÛdulos listaPaco.
-
-
- V1.1 Incluye guardar el setup del puerto com en un fichero del que lee
- los datos para abrir el puerto.
+ Para utilizar este m√≥dulo hay que incluir PuertoCOM.c PuertoCOM.h listaPaco.c listaPaco.h.
  
- ConexiÛn con instrumentos:
+ Conexi√≥n con instrumentos:
  
- Instrumento conectado en un puerto COM que responde a *IDN:
- La configuraciÛn del puerto serie y del instrumento debe ser la del panel
- de configuraciÛn:
+Instrumento conectado en un puerto COM con la librer√≠a segainvex_scpi_Serial:
+
+La configuraci√≥n del puerto serie y del instrumento debe ser la del panel de configuraci√≥n:
  baudrate 115200, 8 bits de datos, 2 bits de stop,sin protocolo hard. ni soft.
- Si se conecta un instrumento que responde al comando SCPI *IDN enviando una 
- cadena de identificaciÛn, lo m·s sencillo es rellenar la cadena de 
- identificaciÛn:
- char IdentificacionDelInstrumento[] ="IdentificaciÛn del sistema";
- en la aplicaciÛn principal y  ejecutar pcom_abre_puerto_serie.Esta funciÛn 
- busca un fichero de configuraciÛn con la ˙ltima configuraciÛn que funcionÛ
- e intenta aplicarlo. Si abre el puerto e identifica correctamente ya est·.
- Si no, busca el instrumento en todos los puertos serie activos del PC hasta
- que lo encuentra y abre el puerto. Si la funciÛn no consigue abrir un 
- puerto devueve -1.
+ Si se conecta un instrumento que responde al comando SCPI IDN (segainvex_scpi_Serial instalada)
+devolviendo  una cadena de identificaci√≥n, lo m√°s sencillo es rellenar la cadena de  identificaci√≥n:
+	char IdentificacionDelInstrumento[] ="Identificaci√≥n del sistema";
+ en la aplicaci√≥n principal y  ejecutar pcom_abre_puerto_serie. Esta funci√≥n  busca un fichero de 
+configuraci√≥n con la √∫ltima configuraci√≥n que funcion√≥  e intenta aplicarlo. Si abre el puerto e
+identifica correctamente ya est√° el puerto listo para funcionar.  Si no, busca el instrumento en
+todos los puertos serie activos del PC hasta que lo encuentra y abre el puerto. Si la funci√≥n no 
+consigue abrir un puerto devueve -1.
  
- Instrumentos conectado en un puerto COM que no responde a *IDN:
- Si el instrumento est· programado con la librerÌa Segainvex_scpi_Serial
- responder· al comando *IDN devolviendo su cadena de identificaciÛn.
- Pero tambiÈn se puede conectar un instrumento  sin Segainvex_scpi_Serial.
- Si no sabemos en que puerto est· el instrumento cargamos el panel de 
- configuraciÛn: pcom_muestra_el_panel_de_configuracion();
- El modo inicial de funcionamiento es "usuario", solo puede cambiar "Retardo"
- y "Timeout" del puerto serie y el resto de controles est·n dimados.
- Para empezar en modo master hay que ejecutar pcom_modo_pcom(0);
- y luego pcom_muestra_el_panel_de_configuracion() para mostrar el panel
- de configuraciÛn y buscar el puerto donde este conectado el instrumento.
- TambiÈn se puede empezar en modo "usuario" y hacer doble click con el botÛn
- derecho del ratÛn en el led y pasar a modo "master" para poder cambiar
- todos los controles del panel de la configuraciÛn del puerto y igualarla
- a la del instrumento que tengamos conectado. TambiÈn podemos poner la 
- configuraciÛn que coincida con la del puerto del instrumento y pulsar "buscar 
- puertos" y seleccionar alguno de los que encuentre y pulsar "aplicar".
- 
- 
- La recepciÛn autom·tica est· activada por defecto, por lo que al enviar un
- comando que provoque una respuesta del instrumento, se ejecutar· la funciÛn
- void pcom_datos_recibido(void), que tenemos que definir en el cÛdigo de cada
- aplicaciÛn. En esta aplicaciÛn hay que discriminar el dato que es y procesarlo.
- Los datos recibidos autom·ticamente est·n en char CadenaRespuesta[], esta 
- cadena esta terminada con TERMINADOR y '\0'. TERMINADOR es configurable,
- por defecto es '\n'.
+Instrumento conectado en un puerto COM sin la librer√≠a segainvex_scpi_Serial:
 
- Si queremos enviar un dato y leer la respuesta de forma no autom·tica, hay que
- desactivar la recepciÛn autom·tica.
+ Si el instrumento est√° programado con la librer√≠a Segainvex_scpi_Serial  responder√° al comando IDN
+devolviendo su cadena de identificaci√≥n. Pero tambi√©n se puede conectar un instrumento  sin 
+Segainvex_scpi_Serial.  Si no sabemos en que puerto est√° el instrumento cargamos el panel de  configuraci√≥n:
+	pcom_muestra_el_panel_de_configuracion();
+ Pero el modo inicial de funcionamiento es "usuario", solo puede cambiar "Retardo" y "Timeout" del puerto 
+serie y el resto de controles est√°n dimados. Hacer doble click con el bot√≥n  derecho del rat√≥n en el led 
+y pasar a modo "master" para poder cambiar  todos los controles del panel de la configuraci√≥n del puerto y
+ igualarla a la del instrumento que tengamos conectado (configuraci√≥n que tenemos que conocer de antemano).
+ Para empezar directamente en modo master hay que ejecutar primero pcom_modo_pcom(0); y luego 
+	pcom_muestra_el_panel_de_configuracion(). 
+
+Para encontrar el instrumento podemos poner la  configuraci√≥n que coincida con la del puerto del instrumento 
+y pulsar "buscar puertos" y seleccionar alguno de los que encuentre y pulsar "aplicar".
  
- CÛdigo para enviar un comando y recibir respuesta:
+ 
+ La recepci√≥n autom√°tica est√° activada por defecto, por lo que al enviar un  comando a Arduino que provoque 
+una respuesta del instrumento, se ejecutar√° la funci√≥n void pcom_datos_recibido(void), que tenemos que definir
+en el c√≥digo de cada aplicaci√≥n. En esta aplicaci√≥n hay que discriminar el dato que se ha recibido es y 
+procesarlo. Los datos recibidos autom√°ticamente est√°n en char CadenaRespuesta[], esta  cadena esta terminada
+ con TERMINADOR y '\0'. TERMINADOR es configurable, por defecto es '\n'.
+
+ Si queremos enviar un dato y leer la respuesta de forma no autom√°tica, hay que desactivar la recepci√≥n 
+autom√°tica.
+ 
+C√≥digo para enviar un comando y recibir respuesta sin modo autom√°tico:
 
  	char DatosRecibidos[256]; //Cadena para recibir datos del instrumento
-    //
- 	pcom_recepcion_automatica(NO); //Evita la recepciÛn autom·tica	
+  //...
+ 	pcom_recepcion_automatica(NO); //Evita la recepci√≥n autom√°tica	
 	sprintf(CadenaComando,"%s","*IDN"); //Pone el comando en la cadena de salida       
  	ENVIAR_COMANDO_AL_SISTEMA(MOSTRAR) //Envia el comando en la cadena de salida       
- 	pcom_recepcion_automatica(SI); //Habilita la recepciÛn autom·tica	
+ 	pcom_recepcion_automatica(SI); //Habilita la recepci√≥n autom√°tica	
 	pcom_recibir_datos (DatosRecibidos,1);//Que rellena la cadena DatosRecibidos
 	//Ya podemos procesar los datos recibidos en DatosRecibidos
+  
+Al ejecutar el macro ENVIAR_COMANDO_AL_SISTEMA se env√≠a por el puerto serie y se produce un delay de duraci√≥n
+"Retardo", que es un par√°metro configurable.
 	
- En la ventana de mensajes, haciendo doble click con el botÛn derecho del ratÛn
- se cierra y abre el puerto serie. Esto debe usarse solo para depuraciÛn.
+En la ventana de mensajes, haciendo doble click con el bot√≥n derecho del rat√≥n  se cierra y abre el puerto 
+serie. Esto debe usarse solo para depuraci√≥n.
+
+Cuando se cierra la aplicaci√≥n y esta ha funcionado  con un puerto COM ,se guarda la configuraci√≥n en un fichero:
+C:\\LabWindowsCVI\\PuertoCOM.ini
+Cuando abra de nuevo la aplicaci√≥n, esta aplicar√° el fichero si el instrumento est√° conectado al sistema,
+esto es m√°s r√°pido que si la aplicaci√≥n tiene que buscar el instrumento en el puerto.
 	
  */
 /*
-	Copyright © 2017 Patricio Coronado
+	Copyright ¬© 2017 Patricio Coronado
 	
 	This file is part of Proyecto PuertoCOM.
 
@@ -98,7 +95,6 @@
 /*************************************************************************************
 							CONSTANTES EXPORTADAS
 **************************************************************************************/
-	
 #define STRLARGO 1024 // Longitud de una cadena larga	
 #define STRCORTO 64 // Longitud de una cadena corto	
 #define STRMEDIO 256// Longitud de una cadena media
@@ -111,20 +107,20 @@
 							VARIABLES EXPORTADAS
 **************************************************************************************/
 extern char IdentificacionDelInstrumento[];  //Se rellena el el programa principal con el nombre del instrumento
-extern char IDNinstrumento[STRMEDIO];// Cadena para leer la identificaciÛn que manda el instrumento por el puerto  
-//Al buscar un instrumento, la aplicaciÛn compara las dos cadenas anteriores
-extern char CadenaComando[STRMEDIO];   // AquÌ se pone el comando a enviar al instrumento
-extern char CadenaRespuesta[STRLARGO]; // AquÌ esta la respuesta del instrumento
-extern float Retardo;		// Tiempo de retardo entre envÌo y recepciÛn Delay(Retardo)
+extern char IDNinstrumento[STRMEDIO];// Cadena para leer la identificaci√≥n que manda el instrumento por el puerto  
+//Al buscar un instrumento, la aplicaci√≥n compara las dos cadenas anteriores
+extern char CadenaComando[STRMEDIO];   // Aqu√≠ se pone el comando a enviar al instrumento
+extern char CadenaRespuesta[STRLARGO]; // Aqu√≠ esta la respuesta del instrumento
+extern float Retardo;		// Tiempo de retardo entre env√≠o y recepci√≥n Delay(Retardo)
 
 //*************************************************************************************
 // MACROS			   
-// EnvÌa un comando err? al sistema sin mostrarlo en el control que muestra las cadenas de salida
+// Env√≠a un comando err? al sistema sin mostrarlo en el control que muestra las cadenas de salida
 #define	PEDIR_ERROR_AL_SISTEMA(MOSTRAR_O_NO) sprintf(CadenaComando,"%s","ERR?");\
 								if(pcom_puerto_abierto())	{ \
 					pcom_enviar_datos(CadenaComando,MOSTRAR_O_NO);  \
 					Delay (Retardo);}
-//EnvÌa por el puerto serie lo que se haya puesto en el array de char "CadenaComano"
+//Env√≠a por el puerto serie lo que se haya puesto en el array de char "CadenaComano"
 //sin mostrarlo en el control que muestra las cadenas de salida 
 #define ENVIAR_COMANDO_AL_SISTEMA(MOSTRAR_O_NO) if(pcom_puerto_abierto()){ \
 				pcom_enviar_datos(CadenaComando,MOSTRAR_O_NO);		   \
@@ -140,116 +136,116 @@ extern float Retardo;		// Tiempo de retardo entre envÌo y recepciÛn Delay(Retard
 	BUSCA EL SISTEMA ENTRE LOS PUERTOS DEL PC Y SI LO ENCUENTRA ABRE EL PUERTO 
 	SERIE Y CONFIGURA EL PROTOCOLO Y TIMEOUT.
 	Intenta abrir el puerto a partir de los datos de un fichero. Si fracasa
-	intenta abrir todos los puertos de 0 a 255.Con la configuraciÛn 
-	del panel de configuraciÛn. Si puede abrir alguno, le envia
-	un comando de identificaciÛn. Y si la cadena devuelta es la esperada, 
+	intenta abrir todos los puertos de 0 a 255.Con la configuraci√≥n 
+	del panel de configuraci√≥n. Si puede abrir alguno, le envia
+	un comando de identificaci√≥n. Y si la cadena devuelta es la esperada, 
 	IdentificacionDelInstrumento[],termina de configurar el puerto.
-	DEVUELVE: El n˙mero del puerto COM abierto.Si no consigue abrir 
+	DEVUELVE: El n√∫mero del puerto COM abierto.Si no consigue abrir 
 	un puerto devuelve -1 (SIN_PUERTO) y PuertoCOM=-1
 */
 int pcom_abre_puerto_serie(void);
 /**************************************************************************************
 	FUNCION PARA PONER EN PANTALLA EL PANEL DE CONFIGURACION
-	Muestra el panel con los par·metros de configuraciÛn del puerto
+	Muestra el panel con los par√°metros de configuraci√≥n del puerto
 	ARGUMENTOS DE ENTRADA: el primer int es el modo del panel (ver abajo los #define)
 	Los otros dos argumentos son las coordenas top y left para posicionar el panel
-	Hacer doble click con el botÛn derecho del ratÛn en el led CAMBIAR ENTRE MODO MASTER
+	Hacer doble click con el bot√≥n derecho del rat√≥n en el led CAMBIAR ENTRE MODO MASTER
 	Y USUARIO.
 */
-#define PANEL_MODO_HIJO 0//Para instalar el panel de configuraciÛn del puerto modo hijo
-#define PANEL_MODO_TOP 1 //Para instalar el panel de configuraciÛn del puerto modo top
+#define PANEL_MODO_HIJO 0//Para instalar el panel de configuraci√≥n del puerto modo hijo
+#define PANEL_MODO_TOP 1 //Para instalar el panel de configuraci√≥n del puerto modo top
 void pcom_muestra_el_panel_de_configuracion(int/*PANEL_MODO_HIJO o PANEL_MODO_TOP*/,int,int);
 
 /***************************************************************************************
 	FUNCION VIRTUAL A DEFINIR EN EL PROGRAMA PRINCIPAL
-	Esta funciÛn es llamada cuando se detecta "Terminador2" en el buffer de entrada.
-	Se ejecuta si est· activada la opciÛn de recibir datos autom·ticamente.	
-	Los datos recibidos est·n en "CadenaRespuesta". Este array de char finaliza 
+	Esta funci√≥n es llamada cuando se detecta "Terminador2" en el buffer de entrada.
+	Se ejecuta si est√° activada la opci√≥n de recibir datos autom√°ticamente.	
+	Los datos recibidos est√°n en "CadenaRespuesta". Este array de char finaliza 
 	con:'\n' y '\0'.
-	TERMINADOR PARA LA RECEPCI”N AUTOM¡TICA: Serial.println() de Arduino funciona asÌ:
+	TERMINADOR PARA LA RECEPCI√ìN AUTOM√ÅTICA: Serial.println() de Arduino funciona as√≠:
 	prints data to the serial port as human-readable ASCII text followed by a carriage 
 	return character (ASCII 13, or '\r' or CR) and a newline character (ASCII 10, or
 	'\n' or LF).
-	La cadena recibida de Serial.println() termina  con "13 10" Û CR LF Û \r\n, 
-	por eso la recepciÛn autom·tica se dispara con \n. la funciÛn que lee quita  
+	La cadena recibida de Serial.println() termina  con "13 10" √≥ CR LF √≥ \r\n, 
+	por eso la recepci√≥n autom√°tica se dispara con \n. la funci√≥n que lee quita  
 	\n y deja  \r que sirve para detectar el final de cadena. 
-	En esta funciÛn, se busca \r en la cadena y cuando se encuentra se sustituye
-	por \n y se aÒade \0.
+	En esta funci√≥n, se busca \r en la cadena y cuando se encuentra se sustituye
+	por \n y se a√±ade \0.
 */	
-	#define TERMINADOR '\n'  //es LF Û 10
-	#define TERMINADOR2 '\r' //es CR Û 13
+	#define TERMINADOR '\n'  //es LF √≥ 10
+	#define TERMINADOR2 '\r' //es CR √≥ 13
 
 extern void pcom_datos_recibido(void);
 /**************************************************************************************
 	FUNCION QUE ACTIVA O DESACTIVA LA RECEPCION AUTOMATICA DEL PUERTO COM
 	El puerto tiene que estar abierto. 
-	Si se activa la recepciÛn autom·tica, cuando entra un dato por el 
-	puerto COM con el "Terminador2" se ejecuta la funciÛn "pcom_datos_recibido".
-	Esta funciÛn la tiene que definir el usuario para que se haga lo que el quiera
-	al recibir un dato. Los datos recibidos est·n en "CadenaRespuesta". Este array 
+	Si se activa la recepci√≥n autom√°tica, cuando entra un dato por el 
+	puerto COM con el "Terminador2" se ejecuta la funci√≥n "pcom_datos_recibido".
+	Esta funci√≥n la tiene que definir el usuario para que se haga lo que el quiera
+	al recibir un dato. Los datos recibidos est√°n en "CadenaRespuesta". Este array 
 	de char finaliza con:'\n' y '\0'.
 	ARGUMENTO DE ENTRADA: int 1 para activar o int 0 para desactivar
-	DEVUELVE:El Puerto COM para el que activa la recepciÛn autom·tica.Si el puerto
-	no est· abierto devuelve el cÛdigo de error -3.
+	DEVUELVE:El Puerto COM para el que activa la recepci√≥n autom√°tica.Si el puerto
+	no est√° abierto devuelve el c√≥digo de error -3.
 */
 int pcom_recepcion_automatica(int);
 /***************************************************************************************                                        
 	FUNCION PARA RECIBIR DATOS                                                                                                  
 	El puerto tiene que estar abierto. 
-	Lee datos del buffer buscando el terminador de recepciÛn seleccionado en el panel de
-	"configuraciÛn del puerto COM" del puerto.
+	Lee datos del buffer buscando el terminador de recepci√≥n seleccionado en el panel de
+	"configuraci√≥n del puerto COM" del puerto.
 	ARGUMENTOS DE ENTRADA: La cadena es para que la rellene con los datos recibidos
-	El segundo argumento  pone a 1 para que muestre los datos en el control de recepciÛn
+	El segundo argumento  pone a 1 para que muestre los datos en el control de recepci√≥n
 	en el panel "comunicacion" y a cero para que no.
-	DEVUELVE: El n˙mero de bytes leidos o el cÛdigo de error si se produce.Si el puerto
-	no est· abierto devuelve el cÛdigo de error -3.
+	DEVUELVE: El n√∫mero de bytes leidos o el c√≥digo de error si se produce.Si el puerto
+	no est√° abierto devuelve el c√≥digo de error -3.
 */
 int pcom_recibir_datos(char[],short int);
 /***************************************************************************************                                        
 	FUNCION PARA ENVIAR DATOS                                                                                                   
 	El puerto tiene que estar abierto. 
-	EnvÌa la cadena pasada como primer argumento por el puerto serie
-	EnvÌa datos poniendo al final  el terminador de transmisiÛn seleccionado en el panel
-	de "configuraciÛn del puerto COM" del puerto.
+	Env√≠a la cadena pasada como primer argumento por el puerto serie
+	Env√≠a datos poniendo al final  el terminador de transmisi√≥n seleccionado en el panel
+	de "configuraci√≥n del puerto COM" del puerto.
 	ARGUMENTOS DE ENTRADA: La cadena con los datos a enviar
-	El segundo argumento  pone a 1 para que muestre los datos en el control de transmisiÛn
+	El segundo argumento  pone a 1 para que muestre los datos en el control de transmisi√≥n
 	en el panel "comunicacion" y a cero para que no.
-	DEVUELVE: El n˙mero de bytes enviados o el cÛdigo de error si se produce.
-	Si el puerto no est· abierto devuelve el cÛdigo de error -3.
+	DEVUELVE: El n√∫mero de bytes enviados o el c√≥digo de error si se produce.
+	Si el puerto no est√° abierto devuelve el c√≥digo de error -3.
 */                  
 int pcom_enviar_datos (char[],int);
 /*****************************************************************************************
-	FUNCIONES QUE DEVUELVE 1 si el puerto est· abierto y 0 si no
+	FUNCIONES QUE DEVUELVE 1 si el puerto est√° abierto y 0 si no
 */
-int pcom_puerto_abierto(void);//Devuelve 1 si el puerto est· abierto 0 si no
+int pcom_puerto_abierto(void);//Devuelve 1 si el puerto est√° abierto 0 si no
 /*****************************************************************************************
-	FUNCION QUE CIERRA EL PUERTO: Hay que cerrar el puerto antes de salir de la aplicaciÛn
+	FUNCION QUE CIERRA EL PUERTO: Hay que cerrar el puerto antes de salir de la aplicaci√≥n
 */
 void pcom_cierra_puerto_serie(void);
 /*****************************************************************************************
 	 FUNCION QUE LIMPIA LA PILA DE ERRORES SCPI
-	 Es conveniente limpiar la pila de errores al principio de la aplicaciÛn
+	 Es conveniente limpiar la pila de errores al principio de la aplicaci√≥n
 */
 void pcom_limpia_pila_errores(void);
 /*****************************************************************************************
 	FUNCION PARA PONER EN PANTALLA EL PANEL DE MENSAJES
-	Muestra el panel en el que se ve el tr·fico del puerto serie
+	Muestra el panel en el que se ve el tr√°fico del puerto serie
 	ARGUMENTOS DE ENTRADA: Los argumentos son las coordenas top y left para
 	posicionar el panel.
 */
 void pcom_muestra_el_panel_de_mensajes(int,int);
 /*****************************************************************************************      
 	FUNCION PARA INICIALIZAR LAS VARIABLES Y PANELES DEL PUERTO
-	pcom  por defecto est· en modo USUARIO. Pero podemos inicializarlo para que empiece
-	en modo MASTER ejecutando esta funciÛn.
+	pcom  por defecto est√° en modo USUARIO. Pero podemos inicializarlo para que empiece
+	en modo MASTER ejecutando esta funci√≥n.
 	ARGUMENTOS DE ENTRADA: 0 para pasar a modo MASTER y 1 para modo USUARIO
 	
 */                                                                                              
 int pcom_modo_pcom(int short);                                       
 /*****************************************************************************************      
-	FUNCIONES QUE DEVUELVE: 1 cuando se produce recepciÛn autom·tica de cadena 
-	por el puerto serie. Cada vez que se ejecuta se borra la informaciÛn, si se ejecuta
-	de nuevo y no ha recibido un dato autom·tico por el puerto serie devuelve 0.
+	FUNCIONES QUE DEVUELVE: 1 cuando se produce recepci√≥n autom√°tica de cadena 
+	por el puerto serie. Cada vez que se ejecuta se borra la informaci√≥n, si se ejecuta
+	de nuevo y no ha recibido un dato autom√°tico por el puerto serie devuelve 0.
 */                                                                                              
 int short com_flag_dato_recibido (void);                                                          
 /******************************************************************************************/
