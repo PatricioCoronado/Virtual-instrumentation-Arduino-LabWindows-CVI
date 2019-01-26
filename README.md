@@ -5,7 +5,7 @@ Para utilizar un timer se usa la librería:
 https://github.com/avandalen/avdweb_SAMDtimer
 
 En esta aplicación se muestra como hacer instrumentación virtual con Arduino y la librería 
-segainvex_scpi_Serial más elentormo de programación de National Instrumentos LabWindows CVI, 
+segainvex_scpi_Serial más el entormo de programación de National Instrumentos LabWindows CVI, 
 con el que se ha programado la librería para este entorno "PuertoCOM" para manejar fácilmente un puerto
 COM a través del cual se comunica con el puerto USB donde se conectar el Arduino.
 
