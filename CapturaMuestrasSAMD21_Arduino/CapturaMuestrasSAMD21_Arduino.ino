@@ -152,31 +152,28 @@ void ISR_timer_adquisicion(struct tc_module *const module_inst)
 	if(IndiceArray>MUESTRAS)IndiceArray=0;
 }
 /****************************************************************
-		CONFIGURA EL ADC PARA CONVERSION RÁPIDA 435us
+		CONFIGURA EL ADC PARA CONVERSION RÁPIDA 20us
 *****************************************************************/
 void configura_ADC(void) 
 {
-	ADC->CTRLA.bit.ENABLE = 0;  // Desabilita el  ADC
-	while( ADC->STATUS.bit.SYNCBUSY == 1 ); 
-//
-	// Divide el clock entre 64 para lecturas más rápidas. 48MHz/64 y Resolucion de 16 bits.
-	ADC->CTRLB.reg = ADC_CTRLB_PRESCALER_DIV64 |ADC_CTRLB_RESSEL_16BIT;   
-	ADC->AVGCTRL.reg = ADC_AVGCTRL_SAMPLENUM_8 |   // acumula 8 lecturas para promediar.
-	ADC_AVGCTRL_ADJRES(0x05ul);          // Desplaza el resultado la derecha para dividir entre 8.
-	ADC->SAMPCTRL.reg = 0x3f;  // Por defecto lee el canal medio ciclo de reloj. Con este valor lo aumentamos.
-//
-	ADC->CTRLA.bit.ENABLE = 1; // Desabilita el  ADC
-	while(ADC->STATUS.bit.SYNCBUSY == 1); //Espera sincronización
-/*
-  PROGRAMACION POR DEFECTO POR SI SE QUIERE RESTIUIR
- ADC->CTRLB.reg = ADC_CTRLB_PRESCALER_DIV512 |    // Divide Clock by 512.
- ADC_CTRLB_RESSEL_10BIT;         // 10 bits resolution as default
- ADC->SAMPCTRL.reg = 0x3f;                        // Set max Sampling Time Length
- while( ADC->STATUS.bit.SYNCBUSY == 1 );          // Wait for synchronization of registers between the clock domains
-  Acumulación de muestras y ajuste del resultado
- ADC->AVGCTRL.reg = ADC_AVGCTRL_SAMPLENUM_1 |    // 1 sample only (no oversampling nor averaging)
-                    ADC_AVGCTRL_ADJRES(0x0ul);   // Adjusting result by 0
-  */
+  //CLK_ADC = 48MHz
+  ADC->CTRLA.bit.ENABLE = 0;// desabilita adc
+  while( ADC->STATUS.bit.SYNCBUSY == 1 );// sincroniza
+  // Prescaler. Selecciona el clk del ADC "GCLK_ADC"
+  ADC->CTRLB.reg &= 0xf8ff; //Prescaler = 000 
+  //ADC->CTRLB.reg |= ADC_CTRLB_PRESCALER_DIV4;   //Prescaler = 000 CLK_ADC = GCLK_ADC/ 4 = 12MHz
+  //ADC->CTRLB.reg |= ADC_CTRLB_PRESCALER_DIV8;   //Prescaler = 001 CLK_ADC = GCLK_ADC/ 8 = 6MHz
+  //ADC->CTRLB.reg |= ADC_CTRLB_PRESCALER_DIV16;  //Prescaler = 010 CLK_ADC = GCLK_ADC/ 16 = 3MHz
+  //ADC->CTRLB.reg |= ADC_CTRLB_PRESCALER_DIV32;  //Prescaler = 011 CLK_ADC = GCLK_ADC/ 32 = 48/32MHz
+  ADC->CTRLB.reg |= ADC_CTRLB_PRESCALER_DIV64;    //Prescaler = 100 CLK_ADC = GCLK_ADC/ 64 = 48/64MHz convierte en 20us
+  //ADC->CTRLB.reg |= ADC_CTRLB_PRESCALER_DIV128; //Prescaler = 101 CLK_ADC = GCLK_ADC/ 128 = 48/128MHz
+  //ADC->CTRLB.reg |= ADC_CTRLB_PRESCALER_DIV256; //Prescaler = 110 CLK_ADC = GCLK_ADC/ 256 = 48/256MHz
+  //ADC->CTRLB.reg |= ADC_CTRLB_PRESCALER_DIV512; //Prescaler = 111 CLK_ADC = GCLK_ADC/ 512 = 48/512MHz
+  // lee una sola muestra  y desplazamiento para dividir por 1
+  ADC->AVGCTRL.reg = ADC_AVGCTRL_SAMPLENUM_1 | ADC_AVGCTRL_ADJRES(0x00ul);// 1 muestra sin promediado 
+  ADC->SAMPCTRL.reg = 0x00;                      // Lee el canal medio ciclo de CLK_ADC
+  ADC->CTRLA.bit.ENABLE = 1;  // Habilita adc
+  while( ADC->STATUS.bit.SYNCBUSY == 1 ); // espera sincronismo
 }
 /********************************************************************
 FUNCION QUE HACE LA CALIBRACION TOCANDO LOS REGISTROS DEL SISTEMA
