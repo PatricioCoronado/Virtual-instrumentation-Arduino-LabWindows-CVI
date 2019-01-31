@@ -73,7 +73,8 @@ void setup()
 	SerialUSB.begin(115200);
 	analogReference(AR_DEFAULT);
 	//analogReference(AR_INTERNAL);
-	//calibracion_ADC_SAM(15,2090);
+	//calibracion_ADC_SAM(6,2057);
+	configura_ADC(void); 
 	TimerAdquisicion.enable(true);
 }
 //
