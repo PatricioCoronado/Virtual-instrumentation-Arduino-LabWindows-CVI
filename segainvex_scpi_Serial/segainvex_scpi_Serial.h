@@ -1,10 +1,10 @@
-/*******************************************************************************
-	DEPARTAMENTO DE ELECTRÓNICA DE SEGAINVEX. UNIVERSIDA AUTONOMA DE MADRID				
-				LIBRERIA PARA ARDUINO Segainvex_scpi_Serial V1.0
- SISTEMA PARA COMUNICAR UNA COMPUTADORA CON ARDUINO MEDIANTE PUERTO SERIE 
- Fichero de cabecera segainvex_scpi_Serial.h
-/******************************************************************************
-/*
+/************************************************************************************
+ 	DEPARTAMENTO DE ELECTRÓNICA DE SEGAINVEX. UNIVERSIDA AUTONOMA DE MADRID				
+ 	LIBRERIA PARA ARDUINO Segainvex_scpi_Serial V1.0
+ 	SISTEMA PARA COMUNICAR UNA COMPUTADORA CON ARDUINO MEDIANTE PUERTO SERIE 
+ 	Fichero de cabecera segainvex_scpi_Serial.h
+
+
 	Copyright © 2017 Mariano Cuenca, Patricio Coronado
 	
 	This file is part of segainvex_scpi_Serial.
@@ -22,32 +22,14 @@
     You should have received a copy of the GNU General Public License
     along with segainvex_scpi_Serial.  If not, see <http://www.gnu.org/licenses/>.
 
-*/
-/* 
+
+ 
 		Mejoras futuras:
 		1)Poner el menú de segainvex_scpi_Serial en flash para no consumir RAM
 		2)Mejorar la función int cambia_variable_double_del_sistema(double *,double,double);
- */
- /* 
-		La librería funciona con 3 puertos serie: Serial, SerialUSB y Serial1
-		Pero antes de hacer el include de la librería hay que indicar que
-		puerto se va a utilizar con un define
-		
-		define SERIALUSB
-		o
-		define SERIAL1
-		
-		Si no se incluye el #define el puerto por defecto es Serial
- */
- /**********************************************************************************
-	HAY QUE DEJAR DESCOMENTADO EL DEFINE QUE SE CORRESPONDA CON EL PUERTO A UTILIZAR
-	SI NO SE DESCOMENTA NINGUNA LINEA, EL PUERTO ES "Serial"
- ***********************************************************************************/
- #define SERIALUSB
- //#define SERIAL1
-/***********************************************************************************
-  DESDE AQUÍ ESTE FICHERO NO DEBE SER EDITADO. ES EL MISMO EN TODAS LAS APLICACIONES
- ***********************************************************************************/
+ *******************************************************************************************/
+ 
+ 
 #ifndef SEGAINVEX_SCPI_SERIAL_H_INCLUDED
 #define SEGAINVEX_SCPI_SERIAL_H_INCLUDED
 //
@@ -56,6 +38,34 @@
 #else
 #include "WProgram.h"
 #endif
+
+
+#ifdef __cplusplus            
+    extern "C" {              
+#endif    
+                    
+/**********************************************************************************
+ 
+		La librería funciona con 3 puertos serie: Serial, SerialUSB y Serial1
+		Pero antes de hacer el include de la librería. Hay que indicar que
+		puerto se va a utilizar con un define.
+		
+		#define SERIALUSB
+		o
+		#define SERIAL1
+		
+		Si no se incluye el #define el puerto por defecto es Serial
+ 
+	HAY QUE DEJAR DESCOMENTADO EL DEFINE QUE SE CORRESPONDA CON EL PUERTO A UTILIZAR
+	SI NO SE DESCOMENTA NINGUNA LINEA, EL PUERTO ES "Serial"
+*************************************************************************************/
+  #define SERIALUSB
+ //#define SERIAL1
+/***********************************************************************************
+  DESDE AQUÍ ESTE FICHERO NO DEBE SER EDITADO. ES EL MISMO EN TODAS LAS APLICACIONES
+ ***********************************************************************************/                             
+                              
+
 /*******************************************************************************
 							CONSTANTES EXPORTADAS
 Hay que tener en cuenta que el buffer de puerto serie de Arduino es 64 bytes							
@@ -168,124 +178,124 @@ extern char IdentificacionDelSistema[];
  microprocesador/microcontrolador
  Aquí hay de fs0 a fs100 y de fs240 a fs255
  *********************************************************************************/
-extern void fs0(void);
-extern void fs1(void);
-extern void fs2(void);
-extern void fs3(void);
-extern void fs4(void);
-extern void fs5(void);
-extern void fs6(void);
-extern void fs7(void);
-extern void fs8(void);
-extern void fs9(void);
-extern void fs10(void);
-extern void fs11(void);
-extern void fs12(void);
-extern void fs13(void);
-extern void fs14(void);
-extern void fs15(void);
-extern void fs16(void);
-extern void fs17(void);
-extern void fs18(void);
-extern void fs19(void);
-extern void fs20(void);
-extern void fs21(void);
-extern void fs22(void);
-extern void fs23(void);
-extern void fs24(void);
-extern void fs25(void);
-extern void fs26(void);
-extern void fs27(void);
-extern void fs28(void);
-extern void fs29(void);
-extern void fs30(void);
-extern void fs31(void);
-extern void fs32(void);
-extern void fs33(void);
-extern void fs34(void);
-extern void fs35(void);
-extern void fs36(void);
-extern void fs37(void);
-extern void fs38(void);
-extern void fs39(void);
-extern void fs40(void);
-extern void fs41(void);
-extern void fs42(void);
-extern void fs43(void);
-extern void fs44(void);
-extern void fs45(void);
-extern void fs46(void);
-extern void fs47(void);
-extern void fs48(void);
-extern void fs49(void);
-extern void fs50(void);
-extern void fs51(void);
-extern void fs52(void);
-extern void fs53(void);
-extern void fs54(void);
-extern void fs55(void);
-extern void fs56(void);
-extern void fs57(void);
-extern void fs58(void);
-extern void fs59(void);
-extern void fs60(void);
-extern void fs61(void);
-extern void fs62(void);
-extern void fs63(void);
-extern void fs64(void);
-extern void fs65(void);
-extern void fs66(void);
-extern void fs67(void);
-extern void fs68(void);
-extern void fs69(void);
-extern void fs70(void);
-extern void fs71(void);
-extern void fs72(void);
-extern void fs73(void);
-extern void fs74(void);
-extern void fs75(void);
-extern void fs76(void);
-extern void fs77(void);
-extern void fs78(void);
-extern void fs79(void);
-extern void fs80(void);
-extern void fs81(void);
-extern void fs82(void);
-extern void fs83(void);
-extern void fs84(void);
-extern void fs85(void);
-extern void fs86(void);
-extern void fs87(void);
-extern void fs88(void);
-extern void fs89(void);
-extern void fs90(void);
-extern void fs91(void);
-extern void fs92(void);
-extern void fs93(void);
-extern void fs94(void);
-extern void fs95(void);
-extern void fs96(void);
-extern void fs97(void);
-extern void fs98(void);
-extern void fs99(void);
-extern void fs100(void);
-//
-extern void fs240(void);
-extern void fs241(void);
-extern void fs242(void);
-extern void fs243(void);
-extern void fs244(void);
-extern void fs245(void);
-extern void fs246(void);
-extern void fs247(void);
-extern void fs248(void);
-extern void fs249(void);
-extern void fs250(void);
-extern void fs251(void);
-extern void fs252(void);
-extern void fs253(void);
-extern void fs254(void);
-extern void fs255(void);
+void fs0(void);
+void fs1(void);
+void fs2(void);
+void fs3(void);
+void fs4(void);
+void fs5(void);
+void fs6(void);
+void fs7(void);
+void fs8(void);
+void fs9(void);
+void fs10(void);
+void fs11(void);
+void fs12(void);
+void fs13(void);
+void fs14(void);
+void fs15(void);
+void fs16(void);
+void fs17(void);
+void fs18(void);
+void fs19(void);
+void fs20(void);
+void fs21(void);
+void fs22(void);
+void fs23(void);
+void fs24(void);
+void fs25(void);
+void fs26(void);
+void fs27(void);
+void fs28(void);
+void fs29(void);
+void fs30(void);
+void fs31(void);
+void fs32(void);
+void fs33(void);
+void fs34(void);
+void fs35(void);
+void fs36(void);
+void fs37(void);
+void fs38(void);
+void fs39(void);
+void fs40(void);
+void fs41(void);
+void fs42(void);
+void fs43(void);
+void fs44(void);
+void fs45(void);
+void fs46(void);
+void fs47(void);
+void fs48(void);
+void fs49(void);
+void fs50(void);
+void fs51(void);
+void fs52(void);
+void fs53(void);
+void fs54(void);
+void fs55(void);
+void fs56(void);
+void fs57(void);
+void fs58(void);
+void fs59(void);
+void fs60(void);
+void fs61(void);
+void fs62(void);
+void fs63(void);
+void fs64(void);
+void fs65(void);
+void fs66(void);
+void fs67(void);
+void fs68(void);
+void fs69(void);
+void fs70(void);
+void fs71(void);
+void fs72(void);
+void fs73(void);
+void fs74(void);
+void fs75(void);
+void fs76(void);
+void fs77(void);
+void fs78(void);
+void fs79(void);
+void fs80(void);
+void fs81(void);
+void fs82(void);
+void fs83(void);
+void fs84(void);
+void fs85(void);
+void fs86(void);
+void fs87(void);
+void fs88(void);
+void fs89(void);
+void fs90(void);
+void fs91(void);
+void fs92(void);
+void fs93(void);
+void fs94(void);
+void fs95(void);
+void fs96(void);
+void fs97(void);
+void fs98(void);
+void fs99(void);
+void fs100(void);
+// definir tantas funciones como sean necesarias
+void fs240(void);
+void fs241(void);
+void fs242(void);
+void fs243(void);
+void fs244(void);
+void fs245(void);
+void fs246(void);
+void fs247(void);
+void fs248(void);
+void fs249(void);
+void fs250(void);
+void fs251(void);
+void fs252(void);
+void fs253(void);
+void fs254(void);
+void fs255(void);
 /**************************************************************************/
 /*
 NOTAS:
@@ -354,5 +364,10 @@ NOTAS:
   más apropiado en cada caso.
 */
 /**************************************************************************/
+#ifdef __cplusplus            
+    }                         
+#endif                        
+
+
 #endif // SEGAINVEX_SCPI_SERIAL_H_INCLUDED
-/***********************************FIN************************************/
+
